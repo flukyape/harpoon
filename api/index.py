@@ -22,10 +22,15 @@ def find_hits_endpoint():
     hits = find_hits(data)
     
     if not hits:
-        return jsonify(message="There's nothing in this block"), 200
+        message = "There's nothing in this block"
+        print(message)
+        return jsonify(message=message), 200
 
+    response_message = f"{len(hits)} number of smart contracts"
+    print(response_message)
+    print('Contracts:', hits)
     response = {
-        'message': f"{len(hits)} number of smart contracts",
+        'message': response_message,
         'contracts': hits
     }
     return jsonify(response), 200
