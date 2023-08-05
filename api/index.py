@@ -20,8 +20,15 @@ def find_hits(data):
 def find_hits_endpoint():
     data = request.json
     hits = find_hits(data)
-    print(hits)
-    return jsonify(hits)
+    
+    if not hits:
+        return jsonify(message="There's nothing in this block"), 200
+
+    response = {
+        'message': f"{len(hits)} number of smart contracts",
+        'contracts': hits
+    }
+    return jsonify(response), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
