@@ -5,10 +5,9 @@ app = Flask(__name__)
 def hello_world():
     data = request.get_json()
     print('data is here')
-    print(data.block)
     print('done')
 
-    return {"message": "Received"}, 200
+    return {"foo": {"test": True}}
 
 if __name__ == "__main__":
     print("Starting Flask server...")
