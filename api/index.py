@@ -5,8 +5,7 @@ app = Flask(__name__)
 def hello_world():
     data = request.get_json()
     print('data is here')
-    print(data.event.body)
-    print(data.event.body.event.data.block.timestamp)
+    print(data.event)
 
     return {"message": "Received"}, 200
 
