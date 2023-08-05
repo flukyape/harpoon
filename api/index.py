@@ -1,12 +1,27 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
+
 app = Flask(__name__)
 
-@app.route("/api/python", methods=['POST'])
-def hello_world():
-    data = request.get_json()
-    print(data)
-    return {"message": "Received"}, 200
+def find_hits(data):
+    result = []
+    transactions = data['block']['transactions']
+    for transaction in transactions:
+        created_contract = transaction.get('createdContract')
+        if created_contract is not None:
+            from_address = transaction['from']['address']
+            contract_address = created_contract['address']
+            result.append({
+                'from_address': from_address,
+                'contract_address': contract_address
+            })
+    return result
 
-if __name__ == "__main__":
-    print("Starting Flask server...")
-    app.run(debug=True)  # run the server in debug mode
+@app.route('/find_hits', methods=['POST'])
+def find_hits_endpoint():
+    data = request.json
+    hits = find_hits(data)
+    print(hits)
+    return jsonify(hits)
+
+if __name__ == '__main__':
+    app.run(debug=True)
